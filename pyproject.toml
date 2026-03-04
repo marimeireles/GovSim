@@ -1,0 +1,78 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "govsim"
+version = "0.1.0"
+description = "GovSim: Governance of the Commons Simulation"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+
+dependencies = [
+    # Core simulation
+    "wandb",
+    "numpy",
+    "pettingzoo",
+    "pydantic",
+    "hydra-core",
+    "nbformat>=4.2.0",
+    "python-dotenv",
+    "sentence-transformers",
+    "randomname",
+    "pandas",
+    # Pathfinder API deps
+    "openai",
+    "anthropic",
+    "mistralai>=1.0",
+    "backoff",
+    "regex",
+    "pygtrie",
+    "einops",
+    "tiktoken",
+    "hf_transfer",
+    "transformers",
+    "torch",
+    "pathfinder",
+]
+
+[project.optional-dependencies]
+local = [
+    "auto-gptq",
+    "bitsandbytes",
+    "accelerate",
+    "optimum",
+]
+vllm = [
+    "vllm",
+    "flash-attn",
+]
+analysis = [
+    "dash",
+    "dash-bootstrap-components",
+    "dash-mantine-components==0.12.1",
+    "lifelines",
+    "statsmodels",
+    "flask-caching",
+    "weasyprint",
+    "kaleido",
+]
+dev = [
+    "pytest",
+    "black",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["simulation", "subskills"]
+
+[tool.uv.sources]
+pathfinder = { path = "pathfinder", editable = true }
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cu121"
+explicit = true
+
+[tool.uv.sources.torch]
+index = "pytorch"

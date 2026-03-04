@@ -85,31 +85,57 @@ wraps around the most common LLM inference backends (OpenAI, Azure OpenAI, Anthr
 
 
 ## Code Setup
-To use the codes in this repo, first clone this repo:
-    
 
-    git clone --recurse-submodules https://github.com/giorgiopiatti/GovSim.git
-    cd govsim
+### Prerequisites
+Install [uv](https://docs.astral.sh/uv/getting-started/installation/).
 
-Then, to install the dependencies, run the following command if you want to use the `transformers` library only.
-    
-```setup
-bash ./setup.sh
+### Installation
+
+Clone the repo and install dependencies:
+
+```bash
+git clone --recurse-submodules https://github.com/giorgiopiatti/GovSim.git
+cd govsim
+uv sync
 ```
 
-or if you want to use the `vllm` library, run the following command:
+This installs the core dependencies needed for API-based models (OpenAI, Anthropic, Mistral).
 
-```setup
-bash ./setup_vllm.sh
+#### Optional dependency groups
+
+For running local HuggingFace models:
+```bash
+uv sync --extra local
 ```
 
-Both setups scripts require conda to be installed. If you do not have conda installed, you can install it by following the instructions [here](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
+For vLLM inference:
+```bash
+uv sync --extra vllm
+```
+
+For analysis and visualization:
+```bash
+uv sync --extra analysis
+```
+
+For development tools:
+```bash
+uv sync --extra dev
+```
+
+### Running
+
+Use `uv run` to execute commands in the managed environment:
+
+```bash
+uv run python -m simulation.main experiment=fish_baseline_concurrent llm.path=gpt-4-turbo-2024-04-09
+```
 
 ### Docker file (AMD)
 We also provide a Dockerfile for running on AMD GPUS (ROCm). We do not offer support for this Dockerfile, but it can be used as a reference for running on AMD GPUs.
 
 ```bash
-docker build -t govsim -f ./govsim-rocm.dockerfile . 
+docker build -t govsim -f ./govsim-rocm.dockerfile .
 ```
 
 
