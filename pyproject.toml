@@ -7,14 +7,14 @@ name = "govsim"
 version = "0.1.0"
 description = "GovSim: Governance of the Commons Simulation"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.14"
 license = "MIT"
 
 dependencies = [
     # Core simulation
     "wandb",
     "numpy",
-    "pettingzoo",
+    "pettingzoo>=1.25.0",
     "pydantic",
     "hydra-core",
     "nbformat>=4.2.0",
@@ -32,8 +32,8 @@ dependencies = [
     "einops",
     "tiktoken",
     "hf_transfer",
-    "transformers",
-    "torch",
+    "transformers>=4.45.0",
+    "torch>=2.6.0",
     "pathfinder",
 ]
 
@@ -58,20 +58,27 @@ analysis = [
     "weasyprint",
     "kaleido",
 ]
+training = [
+    "trl>=0.29",
+    "peft",
+    "datasets",
+    "bitsandbytes",
+    "accelerate",
+]
 dev = [
     "pytest",
     "black",
 ]
 
 [tool.hatch.build.targets.wheel]
-packages = ["simulation", "subskills"]
+packages = ["simulation", "subskills", "training"]
 
 [tool.uv.sources]
 pathfinder = { path = "pathfinder", editable = true }
 
 [[tool.uv.index]]
 name = "pytorch"
-url = "https://download.pytorch.org/whl/cu121"
+url = "https://download.pytorch.org/whl/cu124"
 explicit = true
 
 [tool.uv.sources.torch]
