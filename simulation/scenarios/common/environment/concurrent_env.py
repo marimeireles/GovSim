@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import numpy as np
 import pandas as pd
 from omegaconf import DictConfig, OmegaConf
-from pettingzoo.utils import agent_selector
+from pettingzoo.utils import AgentSelector
 
 from simulation.persona.common import (
     PersonaAction,
@@ -226,9 +226,9 @@ class ConcurrentEnv:
         for agent in self.agents:
             self._init_agent(agent)
 
-        self._agent_selector = agent_selector(self.agents)
+        self._agent_selector = AgentSelector(self.agents)
         self.agent_selection = self._agent_selector.next()
-        self._phase_selector = agent_selector(
+        self._phase_selector = AgentSelector(
             [self.POOL_LOCATION, "pool_after_harvesting", "restaurant", "home"]
         )
         self.phase = self._phase_selector.next()
@@ -444,7 +444,7 @@ class ConcurrentEnv:
                 )
                 if self.cfg.harvesting_order == "random-sequential":
                     agents = list(np.random.permutation(self.agents))
-                    self._agent_selector = agent_selector(agents)
+                    self._agent_selector = AgentSelector(agents)
             self.agent_selection = self._agent_selector.next()
 
         return (

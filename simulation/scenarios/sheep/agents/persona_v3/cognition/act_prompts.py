@@ -36,7 +36,7 @@ def prompt_action_choose_amount_of_grass(
         lm += f"Task: Given that each flock of sheep consumes 1 hectare of grass, and considering the available grass range of {interval[0]}-{interval[-1]} hectares,"
         lm += " how many flocks of sheep would you choose to take to the pasture? "
         lm += reasoning_steps_prompt()
-        lm += ' Put the final answer after "Answer:", example Answer: N flocks.'
+        lm += ' Put the final answer in the format "Answer: N flocks".'
 
     with assistant():
         lm = model.gen(
@@ -49,7 +49,7 @@ def prompt_action_choose_amount_of_grass(
             lm,
             regex=r"\d+",
             default_value="0",
-            stop_regex=f"tons",
+            stop_regex=f"flocks",
             name="option",
         )
         option = int(lm["option"])
